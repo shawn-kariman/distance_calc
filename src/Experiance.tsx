@@ -7,19 +7,24 @@ import { DRACOLoader } from 'three/examples/jsm/Addons.js'
 import { pointsContext } from './App'
 
 export const Experiance = <T extends object>(props: IProps<T> & { children?: any }) => {
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('./js/libs/draco/')
-
-    const loader = new GLTFLoader().setPath('public/')
-    loader.setDRACOLoader(dracoLoader)
-
+    
     const { scene, camera } = useThree()
     
-    loader.load(
-    'free_low_poly_game_assets.glb',
-    (glb) => {
-        scene.add(glb.scene)
-    }
+    useEffect(
+        () => {
+            const dracoLoader = new DRACOLoader()
+            dracoLoader.setDecoderPath('./js/libs/draco/')
+        
+            const loader = new GLTFLoader().setPath('public/')
+            loader.setDRACOLoader(dracoLoader)
+        
+            loader.load(
+                'free_low_poly_game_assets.glb',
+                (glb) => {
+                    scene.add(glb.scene)
+                }
+            )
+        }, []
     )
 
     // @ts-ignore
